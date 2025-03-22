@@ -7,6 +7,8 @@ const Post = require("./models/post");
 const Comment = require("./models/comment");
 const postRouter = require("./routes/postRouter");
 const commentRouter = require("./routes/commentRouter");
+const errorHandler = require("./middleware/errorHandler");
+
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
@@ -19,6 +21,8 @@ app.get("/", (req, res) => {
 app.use("/post", postRouter);
 
 app.use("/comment", commentRouter);
+
+app.use(errorHandler);
 
 Post.hasMany(Comment, { foreignKey: "postId", onDelete: "CASCADE" });
 Comment.belongsTo(Post, { foreignKey: "postId" });
